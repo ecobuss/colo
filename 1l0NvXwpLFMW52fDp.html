@@ -1,0 +1,575 @@
+<html><head><base href="https://websimcreationengine.com/vendeur/dashboard">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Social Marketplace - Stylish Features</title>
+<style>
+    :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #ff6b6b;
+        --accent-color: #feca57;
+        --background-color: #f7f7f7;
+        --text-color: #333;
+        --card-bg-color: #ffffff;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        transition: background-color 0.3s ease;
+    }
+
+    header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 300;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    nav {
+        background-color: var(--card-bg-color);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-around;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    nav a:hover {
+        background-color: var(--accent-color);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    main {
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .product-card {
+        background-color: var(--card-bg-color);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-image {
+        transform: scale(1.1);
+    }
+
+    .product-info {
+        padding: 1rem;
+    }
+
+    .product-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .product-price {
+        font-weight: bold;
+        color: var(--secondary-color);
+    }
+
+    .add-to-cart {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .add-to-cart:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .add-to-cart::after {
+        content: '🛒';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .add-to-cart:hover::after {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    .cart-icon {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 15px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .cart-icon:hover {
+        background-color: var(--secondary-color);
+        transform: scale(1.1);
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: var(--secondary-color);
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .cart-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: -300px;
+        width: 300px;
+        height: 100%;
+        background-color: var(--card-bg-color);
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        z-index: 1001;
+        overflow-y: auto;
+        transition: right 0.3s ease-in-out;
+    }
+
+    .cart-modal.open {
+        right: 0;
+    }
+
+    .cart-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .cart-items {
+        padding: 1rem;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    .cart-item-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        margin-right: 1rem;
+        border-radius: 5px;
+    }
+
+    .cart-item-details {
+        flex-grow: 1;
+    }
+
+    .cart-item-remove {
+        color: var(--secondary-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .cart-item-remove:hover {
+        color: #ff4757;
+        transform: scale(1.2);
+    }
+
+    .cart-total {
+        text-align: right;
+        font-weight: bold;
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+    }
+
+    .checkout-button {
+        display: block;
+        width: calc(100% - 2rem);
+        padding: 1rem;
+        background-color: var(--accent-color);
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        margin: 1rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .checkout-button::after {
+        content: '→';
+        position: absolute;
+        top: 50%;
+        right: -20px;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .checkout-button:hover {
+        background-color: var(--secondary-color);
+        padding-right: 30px;
+    }
+
+    .checkout-button:hover::after {
+        right: 10px;
+        opacity: 1;
+    }
+
+    .auth-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .auth-button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background-color: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        transition: all 0.5s ease;
+    }
+
+    .auth-button:hover::before {
+        width: 300px;
+        height: 300px;
+        margin-left: -150px;
+        margin-top: -150px;
+    }
+
+    .auth-button:first-child {
+        background-color: var(--accent-color);
+        color: white;
+    }
+
+    .auth-button:last-child {
+        background-color: white;
+        color: var(--primary-color);
+    }
+
+    .chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .chat-button:hover {
+        background-color: var(--secondary-color);
+        transform: scale(1.1);
+    }
+
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+        transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+        header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        nav {
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+        }
+
+        nav a {
+            flex: 0 0 auto;
+        }
+
+        .auth-buttons {
+            margin-top: 1rem;
+        }
+
+        .theme-toggle {
+            top: auto;
+            bottom: 20px;
+            left: 20px;
+        }
+    }
+
+    .dark-theme {
+        --background-color: #2c3e50;
+        --text-color: #ecf0f1;
+        --card-bg-color: #34495e;
+    }
+</style>
+</head>
+<body>
+    <header>
+        <h1>E-Social Marketplace</h1>
+        <div class="auth-buttons">
+            <button class="auth-button" onclick="openModal('loginModal')">Connexion</button>
+            <button class="auth-button" onclick="openModal('registerModal')">Inscription</button>
+        </div>
+    </header>
+    <nav>
+        <a href="https://websimcreationengine.com/vendeur/dashboard">Tableau de bord</a>
+        <a href="https://websimcreationengine.com/vendeur/products">Mes produits</a>
+        <a href="https://websimcreationengine.com/vendeur/orders">Commandes</a>
+        <a href="https://websimcreationengine.com/vendeur/analytics">Analyses</a>
+        <a href="https://websimcreationengine.com/vendeur/messages">Messages</a>
+        <a href="https://websimcreationengine.com/vendeur/settings">Paramètres</a>
+        <a href="https://websimcreationengine.com/">Retour au site</a>
+    </nav>
+    <main>
+        <div class="product-card">
+            <img src="https://example.com/product1.jpg" alt="Produit 1" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Produit Fantastique 1</h3>
+                <p class="product-price">99.99 €</p>
+                <button class="add-to-cart" data-product-id="1">Ajouter au panier</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="https://example.com/product2.jpg" alt="Produit 2" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Produit Incroyable 2</h3>
+                <p class="product-price">149.99 €</p>
+                <button class="add-to-cart" data-product-id="2">Ajouter au panier</button>
+            </div>
+        </div>
+        <!-- Ajoutez d'autres cartes de produits ici -->
+    </main>
+
+    <div class="cart-icon" onclick="toggleCart()">
+        🛒
+        <span class="cart-count">0</span>
+    </div>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h2>Votre Panier</h2>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Les articles du panier seront ajoutés ici dynamiquement -->
+        </div>
+        <div class="cart-total" id="cartTotal">
+            Total: 0.00 €
+        </div>
+        <a href="#" class="checkout-button" onclick="checkout()">Passer à la caisse</a>
+    </div>
+
+    <button class="chat-button" onclick="toggleChat()">💬</button>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+
+    <script>
+        let cart = [];
+        let darkTheme = false;
+
+        function addToCart(productId, productName, price) {
+            cart.push({ id: productId, name: productName, price: price });
+            updateCartCount();
+            updateCartItems();
+        }
+
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            cartCount.textContent = cart.length;
+            cartCount.style.transform = 'scale(1.2)';
+            setTimeout(() => cartCount.style.transform = 'scale(1)', 200);
+        }
+
+        function updateCartItems() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <img src="https://example.com/product${item.id}.jpg" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <p>${item.price} €</p>
+                    </div>
+                    <span class="cart-item-remove" onclick="removeFromCart(${index})">❌</span>
+                `;
+                cartItems.appendChild(cartItem);
+                total += item.price;
+            });
+
+            cartTotal.textContent = `Total: ${total.toFixed(2)} €`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            updateCartItems();
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.classList.toggle('open');
+        }
+
+        function checkout() {
+            alert('Redirection vers la page de paiement...');
+            // Ajoutez ici la logique pour rediriger vers la page de paiement
+        }
+
+        function toggleChat() {
+            alert('Ouverture de la fenêtre de chat...');
+            // Ajoutez ici la logique pour ouvrir une fenêtre de chat
+        }
+
+        function toggleTheme() {
+            darkTheme = !darkTheme;
+            document.body.classList.toggle('dark-theme');
+        }
+
+        // Ajouter des animations lors du défilement
+        function animateOnScroll() {
+            const products = document.querySelectorAll('.product-card');
+            products.forEach(product => {
+                const rect = product.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    product.style.opacity = '1';
+                    product.style.transform = 'translateY(0)';
+                } else {
+                    product.style.opacity = '0';
+                    product.style.transform = 'translateY(20px)';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Appeler une fois au chargement
+
+        // Ajouter des événements pour les boutons "Ajouter au panier"
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.getAttribute('data-product-id');
+                const productName = this.parentElement.querySelector('.product-title').textContent;
+                const price = parseFloat(this.parentElement.querySelector('.product-price').textContent);
+                addToCart(productId, productName, price);
+            });
+        });
+    </script>
+</body>
+</html>
